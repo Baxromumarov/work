@@ -1,13 +1,14 @@
 package main
 
 import (
-    "github.com/rustagram/template-service/config"
-    pb "github.com/rustagram/template-service/genproto"
-    "github.com/rustagram/template-service/pkg/db"
-    "github.com/rustagram/template-service/pkg/logger"
-    "github.com/rustagram/template-service/service"
-    "google.golang.org/grpc"
-    "net"
+	"net"
+
+	"github.com/baxromumarov/work/first-service/config"
+	pb "github.com/baxromumarov/work/first-service/genproto"
+	"github.com/baxromumarov/work/first-service/pkg/db"
+	"github.com/baxromumarov/work/first-service/pkg/logger"
+	"github.com/baxromumarov/work/first-service/service"
+	"google.golang.org/grpc"
 )
 
 func main() {

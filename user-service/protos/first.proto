@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package first;
+
+service FirstService {
+   rpc CreateDB(Empty) returns(Empty);
+}
+
+message Empty{
+}
