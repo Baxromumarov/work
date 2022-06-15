@@ -1,27 +1,28 @@
 package service
 
 import (
-    "context"
-    "github.com/jmoiron/sqlx"
-    pb "github.com/rustagram/template-service/genproto"
-    l "github.com/rustagram/template-service/pkg/logger"
-    "github.com/rustagram/template-service/storage"
+	"context"
+
+	pb "github.com/baxromumarov/post-service/genproto"
+	l "github.com/baxromumarov/post-service/pkg/logger"
+	"github.com/baxromumarov/post-service/storage"
+	"github.com/jmoiron/sqlx"
 )
 
 //UserService ...
 type UserService struct {
-    storage storage.IStorage
-    logger  l.Logger
+	storage storage.IStorage
+	logger  l.Logger
 }
 
 //NewUserService ...
 func NewUserService(db *sqlx.DB, log l.Logger) *UserService {
-    return &UserService{
-        storage: storage.NewStoragePg(db),
-        logger:  log,
-    }
+	return &UserService{
+		storage: storage.NewStoragePg(db),
+		logger:  log,
+	}
 }
 
 func (s *UserService) Create(ctx context.Context, req *pb.User) (*pb.User, error) {
-    return nil, nil
+	return nil, nil
 }

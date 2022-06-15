@@ -3,10 +3,12 @@ package service
 import (
 	"context"
 
-	pb "github.com/baxromumarov/work/first-service/genproto"
-	l "github.com/baxromumarov/work/first-service/pkg/logger"
-	"github.com/baxromumarov/work/first-service/storage"
+	pb "github.com/baxromumarov/work/user-service/genproto"
+	l "github.com/baxromumarov/work/user-service/pkg/logger"
+	"github.com/baxromumarov/work/user-service/storage"
 	"github.com/jmoiron/sqlx"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 //UserService ...
@@ -23,6 +25,14 @@ func NewUserService(db *sqlx.DB, log l.Logger) *UserService {
     }
 }
 
-// func (s *UserService) CreateDB(ctx context.Context, *pb.Empty) error {
+
+func (s *UserService) Create(ctx context.Context, req *pb.Request) (*pb.Empty, error){
+    info, err := s.storage.User().Create(req)
+    if err != nil {
+        s.logger.Error("Error while inserting informations to db", l.Error(err))
+        return nil, status.Error(codes.Internal,"Error while inserting informations to db")
+    }
     
-// }
+
+    return info,nil
+}

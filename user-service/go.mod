@@ -1,4 +1,4 @@
-module github.com/baxromumarov/work/first-service
+module github.com/baxromumarov/work/user-service
 
 go 1.16
 

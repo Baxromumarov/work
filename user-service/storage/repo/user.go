@@ -1,10 +1,9 @@
 package repo
 
-import (
-	// pb "github.com/baxromumarov/work/first-service/genproto"
+import(
+	pb "github.com/baxromumarov/work/user-service/genproto"
 )
-
 //UserStorageI ...
 type UserStorageI interface {
-	CreateDB() error
+	Create(*pb.Request) (*pb.Empty, error)
 }

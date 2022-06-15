@@ -1,4 +1,4 @@
-module github.com/rustagram/template-service
+module github.com/baxromumarov/post-service
 
 go 1.16
 
