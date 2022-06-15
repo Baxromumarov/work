@@ -1,29 +1,29 @@
 package storage
 
 import (
-	"github.com/baxromumarov/my-services/post-service/storage/postgres"
-	"github.com/baxromumarov/my-services/post-service/storage/repo"
-	"github.com/jmoiron/sqlx"
+    "github.com/jmoiron/sqlx"
+    "github.com/rustagram/template-service/storage/postgres"
+    "github.com/rustagram/template-service/storage/repo"
 )
 
 //IStorage ...
 type IStorage interface {
-	Post() repo.PostStorageI
+    User() repo.UserStorageI
 }
 
 type storagePg struct {
-	db       *sqlx.DB
-	postRepo repo.PostStorageI
+    db         *sqlx.DB
+    userRepo   repo.UserStorageI
 }
 
 //NewStoragePg ...
 func NewStoragePg(db *sqlx.DB) *storagePg {
-	return &storagePg{
-		db:       db,
-		postRepo: postgres.NewPostRepo(db),
-	}
+    return &storagePg{
+        db:         db,
+        userRepo:   postgres.NewUserRepo(db),
+    }
 }
 
-func (s storagePg) Post() repo.PostStorageI {
-	return s.postRepo
+func (s storagePg) User() repo.UserStorageI {
+    return s.userRepo
 }
