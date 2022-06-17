@@ -1,14 +1,11 @@
 package repo
 
-import (
-	"github.com/jmoiron/sqlx"
-)
+import pb "github.com/baxromumarov/work/post-service/genproto"
 
-type postRepo struct {
-	db *sqlx.DB
-}
-
-//NewPostRepo ...
-func NewPostRepo(db *sqlx.DB) *postRepo {
-	return &postRepo{db: db}
+//PostStorageI ...
+type PostStorageI interface {
+	GetAllData() ([]*pb.Data, error)
+	GetDataById(id string) (*pb.Data, error)
+	DeleteById(id string) error
+	UpdateData(*pb.Data) (*pb.Data, error)
 }

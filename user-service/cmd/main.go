@@ -1,14 +1,14 @@
 package main
 
 import (
-	"net"
-	"google.golang.org/grpc/reflection"
 	"github.com/baxromumarov/work/user-service/config"
 	pb "github.com/baxromumarov/work/user-service/genproto"
 	"github.com/baxromumarov/work/user-service/pkg/db"
 	"github.com/baxromumarov/work/user-service/pkg/logger"
 	"github.com/baxromumarov/work/user-service/service"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
+	"net"
 )
 
 func main() {

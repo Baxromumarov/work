@@ -1,6 +1,7 @@
 package main
 
 import (
+	grpcClient "github.com/baxromumarov/work/post-service/service/grpc_client"
 	"google.golang.org/grpc/reflection"
 	"net"
 
@@ -27,8 +28,13 @@ func main() {
 	if err != nil {
 		log.Fatal("sqlx connection to postgres error", logger.Error(err))
 	}
+	grpcC, err := grpcClient.New(cfg)
+	if err != nil {
+		log.Fatal("grpc client error", logger.Error(err))
+		return
+	}
 
-	userService := service.NewUserService(connDB, log)
+	postService := service.NewPostService(connDB, log, grpcC)
 
 	lis, err := net.Listen("tcp", cfg.RPCPort)
 	if err != nil {
@@ -36,7 +42,7 @@ func main() {
 	}
 
 	s := grpc.NewServer()
-	pb.RegisterUserServiceServer(s, userService)
+	pb.RegisterPostServiceServer(s, postService)
 	log.Info("main: server running",
 		logger.String("port", cfg.RPCPort))
 
