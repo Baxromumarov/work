@@ -1,14 +1,14 @@
 package main
 
 import (
-	"net"
 	"google.golang.org/grpc/reflection"
+	"net"
 
-	"github.com/baxromumarov/post-service/config"
-	pb "github.com/baxromumarov/post-service/genproto"
-	"github.com/baxromumarov/post-service/pkg/db"
-	"github.com/baxromumarov/post-service/pkg/logger"
-	"github.com/baxromumarov/post-service/service"
+	"github.com/baxromumarov/work/post-service/config"
+	pb "github.com/baxromumarov/work/post-service/genproto"
+	"github.com/baxromumarov/work/post-service/pkg/db"
+	"github.com/baxromumarov/work/post-service/pkg/logger"
+	"github.com/baxromumarov/work/post-service/service"
 	"google.golang.org/grpc"
 )
 
@@ -40,8 +40,8 @@ func main() {
 	log.Info("main: server running",
 		logger.String("port", cfg.RPCPort))
 
-    reflection.Register(s)
-    
+	reflection.Register(s)
+
 	if err := s.Serve(lis); err != nil {
 		log.Fatal("Error while listening: %v", logger.Error(err))
 	}

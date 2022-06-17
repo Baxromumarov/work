@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Jun 15 10:43:21 2022
+# Make data base, printed on Thu Jun 16 07:05:08 2022
 
 # Variables
 
@@ -17,15 +17,15 @@ GDK_BACKEND = x11
 # environment
 LC_ALL = C
 # environment
-NO_AT_BRIDGE = 1
-# environment
 GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
 SSH_AGENT_LAUNCHER = gnome-keyring
 # environment
 SNAP_INSTANCE_KEY = 
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-71af98c1-ff5e-4247-9399-032d69e10db0.sock
+GJS_DEBUG_OUTPUT = stderr
+# environment
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-ad7bb15b-7f1f-4038-9780-57ff36c4b45c.sock
 # environment
 LC_NAME = en_US.UTF-8
 # environment
@@ -67,15 +67,13 @@ VSCODE_CODE_CACHE_PATH = /home/baxrom/.config/Code/CachedData/4af164ea3a06f701fe
 # environment
 LANG = C
 # environment
-XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.ODFGN1
+XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.J92VN1
 # default
 .LOADED := 
 # default
 .INCLUDE_DIRS = /usr/local/include /usr/include /usr/include
 # makefile
 MAKEFLAGS = pqrR
-# environment
-DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=1da7c896c6de7cc05856bec562a93a8f
 # makefile
 CURDIR := /home/baxrom/go/src/github.com/baxromumarov/work/post-service
 # environment
@@ -109,7 +107,7 @@ SNAP_REEXEC =
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 2589
+VSCODE_PID = 2386
 # environment
 XDG_SESSION_TYPE = wayland
 # automatic
@@ -117,13 +115,13 @@ XDG_SESSION_TYPE = wayland
 # environment
 BAMF_DESKTOP_FILE_HINT = /var/lib/snapd/desktop/applications/code_code.desktop
 # environment
-SESSION_MANAGER = local/baxrom:@/tmp/.ICE-unix/1650,unix/baxrom:/tmp/.ICE-unix/1650
+SESSION_MANAGER = local/baxrom:@/tmp/.ICE-unix/1638,unix/baxrom:/tmp/.ICE-unix/1638
 # automatic
 *F = $(notdir $*)
 # environment
 CHROME_DESKTOP = code-url-handler.desktop
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=1da7c896c6de7cc05856bec562a93a8f
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
@@ -139,6 +137,8 @@ MAKECMDGOALS := all
 # environment
 XMODIFIERS = @im=ibus
 # environment
+GJS_DEBUG_TOPICS = JS ERROR;JS LOG
+# environment
 SHLVL = 0
 # environment
 MAKELEVEL := 0
@@ -149,7 +149,7 @@ MAKE = $(MAKE_COMMAND)
 # environment
 SNAP_COOKIE = Oeh3A3OxPZY380uqOPI14nOZD8DtEfPAd16hs05uY5Mbt83oA_82
 # environment
-PATH = /usr/local/go/bin:/home/baxrom/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin
+PATH = /home/baxrom/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/usr/local/go/bin:/home/baxrom/go/bin
 # default
 MAKEFILES := 
 # environment
@@ -163,7 +163,7 @@ LC_TIME = en_US.UTF-8
 # environment
 SNAP = /snap/code/98
 # environment
-INVOCATION_ID = 95ce596ab2204f98a5f21e5d301bf644
+INVOCATION_ID = 6af4e9fd95684b8eb468ee1e2a4ab3a8
 # environment
 SNAP_REVISION = 98
 # environment
@@ -176,7 +176,9 @@ USERNAME = baxrom
 GNOME_SETUP_DISPLAY = :1
 # environment
 LC_TELEPHONE = en_US.UTF-8
+ 
 # environment
+ 
 LESSCLOSE = /usr/bin/lesspipe %s %s
 # automatic
 ?F = $(notdir $?)
@@ -193,6 +195,7 @@ ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # 'override' directive
 GNUMAKEFLAGS := 
 # environment
+ 
 LOGNAME = baxrom
 # makefile (from 'Makefile', line 1)
 CURRENT_DIR = $(shell pwd)
@@ -203,7 +206,7 @@ SNAP_ARCH = amd64
 # makefile
 .DEFAULT_GOAL := build
 # environment
-SYSTEMD_EXEC_PID = 1650
+SYSTEMD_EXEC_PID = 1656
 # environment
 DISPLAY = :0
 # environment
@@ -219,13 +222,11 @@ SNAP_DATA = /var/snap/code/98
 # environment
 SNAP_CONTEXT = Oeh3A3OxPZY380uqOPI14nOZD8DtEfPAd16hs05uY5Mbt83oA_82
 # environment
-MANAGERPID = 1516
-# environment
-DBUS_STARTER_BUS_TYPE = session
+MANAGERPID = 1503
 # environment
 LC_MEASUREMENT = en_US.UTF-8
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 392076
+GIO_LAUNCHED_DESKTOP_FILE_PID = 2340
 # environment
 _ = /snap/code/98/usr/share/code/code
 # environment
@@ -235,7 +236,7 @@ XDG_RUNTIME_DIR = /run/user/1000
 # environment
 GDK_PIXBUF_MODULE_FILE = /home/baxrom/snap/code/common/.cache/gdk-pixbuf-loaders.cache
 # environment
-JOURNAL_STREAM = 8:35252
+JOURNAL_STREAM = 8:32473
 # environment
 GOMODCACHE = /home/baxrom/go/pkg/mod
 # environment
@@ -274,6 +275,7 @@ VSCODE_CLI = 1
 ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
 SNAP_COMMON = /var/snap/code/common
+ 
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
 # environment
@@ -287,7 +289,7 @@ LC_IDENTIFICATION = en_US.UTF-8
 # environment
 SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
 # variable set hash-table stats:
-# Load=137/1024=13%, Rehash=0, Collisions=8/167=5%
+# Load=136/1024=13%, Rehash=0, Collisions=7/166=4%
 
 # Pattern-specific Variable Values
 
@@ -308,6 +310,7 @@ SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
+ 
 #  Last modified 2022-05-24 18:41:58
 #  File has been updated.
 #  Successfully updated.
@@ -335,7 +338,6 @@ all:
 
 build:
 #  Implicit rule search has not been done.
- 
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 4):
@@ -355,6 +357,6 @@ build:
 # strcache performance: lookups = 27 / hit rate = 22%
 # hash-table stats:
 # Load=21/8192=0%, Rehash=0, Collisions=0/27=0%
-# Finished Make data base on Wed Jun 15 10:43:21 2022
+# Finished Make data base on Thu Jun 16 07:05:08 2022
 
  
