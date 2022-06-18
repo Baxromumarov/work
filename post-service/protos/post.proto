@@ -3,12 +3,11 @@ syntax = "proto3";
 package user;
 import "user.proto";
 
-service PostService{
+service PostService {
   rpc GetAllData(Empty) returns (DataResp);
   rpc GetDataById(ByIdReq) returns (Data);
   rpc DeleteById(ByIdReq) returns (Empty);
   rpc UpdateData(Data) returns (Data);
-
 }
 message DataResp{
   repeated Data data = 1;

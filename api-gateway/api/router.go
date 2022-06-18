@@ -1,11 +1,12 @@
 package api
 
 import (
+	//_ "github.com/baxromumarov/work/api-gateway/api/docs"
+	v1 "github.com/baxromumarov/work/api-gateway/api/handlers/v1"
+	"github.com/baxromumarov/work/api-gateway/config"
+	"github.com/baxromumarov/work/api-gateway/pkg/logger"
+	"github.com/baxromumarov/work/api-gateway/services"
 	"github.com/gin-gonic/gin"
-	v1 "github.com/rustagram/api-gateway/api/handlers/v1"
-	"github.com/rustagram/api-gateway/config"
-	"github.com/rustagram/api-gateway/pkg/logger"
-	"github.com/rustagram/api-gateway/services"
 )
 
 // Option ...
@@ -28,12 +29,13 @@ func New(option Option) *gin.Engine {
 		Cfg:            option.Conf,
 	})
 
+	// https://gorest.co.in/public/v1
 	api := router.Group("/v1")
-	api.POST("/users", handlerV1.CreateUser)
-	api.GET("/users/:id", handlerV1.GetUser)
-	// api.GET("/users", handlerV1.ListUsers)
-	// api.PUT("/users/:id", handlerV1.UpdateUser)
-	// api.DELETE("/users/:id", handlerV1.DeleteUser)
+	api.POST("/data/insert", handlerV1.CreateData)
+	api.GET("/data/list", handlerV1.GetDataList)
+	api.GET("/data/:id", handlerV1.GetDataById)
+	api.PUT("/data/:id", handlerV1.UpdateData)
+	api.DELETE("/data/:id", handlerV1.DeleteData)
 
 	return router
 }

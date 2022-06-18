@@ -1,53 +1,70 @@
 package v1
 
 import (
+	"bytes"
 	"context"
 	"fmt"
-	"net/http"
-	"time"
-
+	pb "github.com/baxromumarov/work/api-gateway/genproto"
+	l "github.com/baxromumarov/work/api-gateway/pkg/logger"
 	"github.com/gin-gonic/gin"
-	pb "github.com/rustagram/api-gateway/genproto"
-	l "github.com/rustagram/api-gateway/pkg/logger"
+	"github.com/golang/protobuf/jsonpb"
+	"github.com/spf13/cast"
 	"google.golang.org/protobuf/encoding/protojson"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"os"
+	"time"
 )
 
-// CreateUser creates user
-// route /v1/users [post]
-func (h *handlerV1) CreateUser(c *gin.Context) {
+// Insert data and meta to db
+func (h *handlerV1) CreateData(c *gin.Context) {
 	var (
-		body        pb.User
+		body        pb.Request
 		jspbMarshal protojson.MarshalOptions
+		a           int64
 	)
-	jspbMarshal.UseProtoNames = true
 
-	err := c.ShouldBindJSON(&body)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
+	for a = 1; a < 21; a++ {
+		jspbMarshal.UseProtoNames = true
+		url := fmt.Sprintf("https://gorest.co.in/public/v1/posts?page=%d", a)
+		response, err := http.Get(url)
+
+		if err != nil {
+			fmt.Print(err.Error())
+			os.Exit(1)
+		}
+
+		responseData, err := ioutil.ReadAll(response.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(h.cfg.CtxTimeout))
+		defer cancel()
+
+		err = jsonpb.Unmarshal(bytes.NewReader(responseData), &body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		_, err = h.serviceManager.UserService().Create(ctx, &body)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			h.log.Error("failed to create data", l.Error(err))
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"message": "success",
 		})
-		h.log.Error("failed to bind json", l.Error(err))
-		return
-	}
-	fmt.Println(&body)
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(h.cfg.CtxTimeout))
-	defer cancel()
 
-	response, err := h.serviceManager.UserService().CreateUser(ctx, &body)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
-		})
-		h.log.Error("failed to create user", l.Error(err))
-		return
 	}
 
-	c.JSON(http.StatusCreated, response)
 }
 
-// GetUser gets user by id
-// route /v1/users/{id} [get]
-func (h *handlerV1) GetUser(c *gin.Context) {
+// GetData gets data by id
+func (h *handlerV1) GetDataById(c *gin.Context) {
 	var jspbMarshal protojson.MarshalOptions
 	jspbMarshal.UseProtoNames = true
 
@@ -55,8 +72,8 @@ func (h *handlerV1) GetUser(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(h.cfg.CtxTimeout))
 	defer cancel()
 
-	response, err := h.serviceManager.UserService().GetUserById(
-		ctx, &pb.GetUserByIdRequest{
+	response, err := h.serviceManager.PostService().GetDataById(
+		ctx, &pb.ByIdReq{
 			Id: guid,
 		})
 	if err != nil {
@@ -70,97 +87,81 @@ func (h *handlerV1) GetUser(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-// // ListUsers returns list of users
-// // route /v1/users/ [get]
-// func (h *handlerV1) ListUsers(c *gin.Context) {
-// 	queryParams := c.Request.URL.Query()
+// // ListData returns list of datas
+func (h *handlerV1) GetDataList(c *gin.Context) {
+	//var jspbMarshal protojson.MarshalOptions
+	//jspbMarshal.UseProtoNames = true
 
-// 	params, errStr := utils.ParseQueryParams(queryParams)
-// 	if errStr != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{
-// 			"error": errStr[0],
-// 		})
-// 		h.log.Error("failed to parse query params json" + errStr[0])
-// 		return
-// 	}
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(h.cfg.CtxTimeout))
+	defer cancel()
 
-// 	var jspbMarshal protojson.MarshalOptions
-// 	jspbMarshal.UseProtoNames = true
+	response, err := h.serviceManager.PostService().GetAllData(ctx, &pb.Empty{})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		h.log.Error("failed to list data", l.Error(err))
+		return
+	}
 
-// 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(h.cfg.CtxTimeout))
-// 	defer cancel()
+	c.JSON(http.StatusOK, response)
+}
 
-// 	response, err := h.serviceManager.UserService().List(
-// 		ctx, &pb.ListReq{
-// 			Limit: params.Limit,
-// 			Page:  params.Page,
-// 		})
-// 	if err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{
-// 			"error": err.Error(),
-// 		})
-// 		h.log.Error("failed to list users", l.Error(err))
-// 		return
-// 	}
+// UpdateData updates data by id
+// route /v1/data/{id} [put]
+func (h *handlerV1) UpdateData(c *gin.Context) {
+	var (
+		body        pb.Data
+		jspbMarshal protojson.MarshalOptions
+	)
+	jspbMarshal.UseProtoNames = true
 
-// 	c.JSON(http.StatusOK, response)
-// }
+	err := c.ShouldBindJSON(&body)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		h.log.Error("failed to bind json", l.Error(err))
+		return
+	}
+	guid := c.Param("id")
+	body.Id = cast.ToInt64(guid)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(h.cfg.CtxTimeout))
+	defer cancel()
 
-// // UpdateUser updates user by id
-// // route /v1/users/{id} [put]
-// func (h *handlerV1) UpdateUser(c *gin.Context) {
-// 	var (
-// 		body        pb.User
-// 		jspbMarshal protojson.MarshalOptions
-// 	)
-// 	jspbMarshal.UseProtoNames = true
+	response, err := h.serviceManager.PostService().UpdateData(ctx, &body)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		h.log.Error("failed to update user", l.Error(err))
+		return
+	}
 
-// 	err := c.ShouldBindJSON(&body)
-// 	if err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{
-// 			"error": err.Error(),
-// 		})
-// 		h.log.Error("failed to bind json", l.Error(err))
-// 		return
-// 	}
-// 	body.Id = c.Param("id")
+	c.JSON(http.StatusOK, response)
+}
 
-// 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(h.cfg.CtxTimeout))
-// 	defer cancel()
+// DeleteData deletes data by id
+// route /v1/data/{id} [delete]
+func (h *handlerV1) DeleteData(c *gin.Context) {
+	var jspbMarshal protojson.MarshalOptions
+	jspbMarshal.UseProtoNames = true
 
-// 	response, err := h.serviceManager.UserService().Update(ctx, &body)
-// 	if err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{
-// 			"error": err.Error(),
-// 		})
-// 		h.log.Error("failed to update user", l.Error(err))
-// 		return
-// 	}
+	guid := c.Param("id")
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(h.cfg.CtxTimeout))
+	defer cancel()
 
-// 	c.JSON(http.StatusOK, response)
-// }
+	response, err := h.serviceManager.PostService().DeleteById(
+		ctx, &pb.ByIdReq{
+			Id: guid,
+		})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		h.log.Error("failed to delete user", l.Error(err))
+		return
+	}
 
-// // DeleteUser deletes user by id
-// // route /v1/users/{id} [delete]
-// func (h *handlerV1) DeleteUser(c *gin.Context) {
-// 	var jspbMarshal protojson.MarshalOptions
-// 	jspbMarshal.UseProtoNames = true
-
-// 	guid := c.Param("id")
-// 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(h.cfg.CtxTimeout))
-// 	defer cancel()
-
-// 	response, err := h.serviceManager.UserService().Delete(
-// 		ctx, &pb.ByIdReq{
-// 			Id: guid,
-// 		})
-// 	if err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{
-// 			"error": err.Error(),
-// 		})
-// 		h.log.Error("failed to delete user", l.Error(err))
-// 		return
-// 	}
-
-// 	c.JSON(http.StatusOK, response)
-// }
+	c.JSON(http.StatusOK, response)
+}

@@ -1,9 +1,9 @@
 package v1
 
 import (
-	"github.com/rustagram/api-gateway/config"
-	"github.com/rustagram/api-gateway/pkg/logger"
-	"github.com/rustagram/api-gateway/services"
+	"github.com/baxromumarov/work/api-gateway/config"
+	"github.com/baxromumarov/work/api-gateway/pkg/logger"
+	"github.com/baxromumarov/work/api-gateway/services"
 )
 
 type handlerV1 struct {

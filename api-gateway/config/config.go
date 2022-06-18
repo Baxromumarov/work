@@ -13,6 +13,8 @@ type Config struct {
 	UserServiceHost string
 	UserServicePort int
 
+	PostServiceHost string
+	PostServicePort int
 	// context timeout in seconds
 	CtxTimeout int
 
@@ -27,9 +29,13 @@ func Load() Config {
 	c.Environment = cast.ToString(getOrReturnDefault("ENVIRONMENT", "develop"))
 
 	c.LogLevel = cast.ToString(getOrReturnDefault("LOG_LEVEL", "debug"))
-	c.HTTPPort = cast.ToString(getOrReturnDefault("HTTP_PORT", ":8080"))
+	c.HTTPPort = cast.ToString(getOrReturnDefault("HTTP_PORT", ":8000"))
+
 	c.UserServiceHost = cast.ToString(getOrReturnDefault("USER_SERVICE_HOST", "127.0.0.1"))
-	c.UserServicePort = cast.ToInt(getOrReturnDefault("USER_SERVICE_PORT", 8000))
+	c.UserServicePort = cast.ToInt(getOrReturnDefault("USER_SERVICE_PORT", 7000))
+
+	c.PostServiceHost = cast.ToString(getOrReturnDefault("POST_SERVICE_HOST", "127.0.0.1"))
+	c.PostServicePort = cast.ToInt(getOrReturnDefault("POST_SERVICE_PORT", 9000))
 
 	c.CtxTimeout = cast.ToInt(getOrReturnDefault("CTX_TIMEOUT", 7))
 

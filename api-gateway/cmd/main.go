@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/rustagram/api-gateway/api"
-	"github.com/rustagram/api-gateway/config"
-	"github.com/rustagram/api-gateway/pkg/logger"
-	"github.com/rustagram/api-gateway/services"
+	"github.com/baxromumarov/work/api-gateway/api"
+	"github.com/baxromumarov/work/api-gateway/config"
+	"github.com/baxromumarov/work/api-gateway/pkg/logger"
+	"github.com/baxromumarov/work/api-gateway/services"
 )
 
 func main() {
@@ -26,4 +26,5 @@ func main() {
 		log.Fatal("failed to run http server", logger.Error(err))
 		panic(err)
 	}
+
 }

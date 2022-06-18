@@ -2,9 +2,8 @@ package services
 
 import (
 	"fmt"
-
-	"github.com/rustagram/api-gateway/config"
-	pb "github.com/rustagram/api-gateway/genproto"
+	"github.com/baxromumarov/work/api-gateway/config"
+	pb "github.com/baxromumarov/work/api-gateway/genproto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/resolver"
@@ -12,16 +11,20 @@ import (
 
 type IServiceManager interface {
 	UserService() pb.UserServiceClient
+	PostService() pb.PostServiceClient
 }
 
 type serviceManager struct {
 	userService pb.UserServiceClient
+	postService pb.PostServiceClient
 }
 
 func (s *serviceManager) UserService() pb.UserServiceClient {
 	return s.userService
 }
-
+func (s *serviceManager) PostService() pb.PostServiceClient {
+	return s.postService
+}
 func NewServiceManager(conf *config.Config) (IServiceManager, error) {
 	resolver.SetDefaultScheme("dns")
 
@@ -31,9 +34,16 @@ func NewServiceManager(conf *config.Config) (IServiceManager, error) {
 	if err != nil {
 		return nil, err
 	}
+	connPost, err := grpc.Dial(
+		fmt.Sprintf("%s:%d", conf.PostServiceHost, conf.PostServicePort),
+		grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		return nil, err
+	}
 
 	serviceManager := &serviceManager{
 		userService: pb.NewUserServiceClient(connUser),
+		postService: pb.NewPostServiceClient(connPost),
 	}
 
 	return serviceManager, nil

@@ -17,7 +17,7 @@ func ParseQueryParams(queryParams map[string][]string) (*QueryParams, []string) 
 	params := QueryParams{
 		Filters:  make(map[string]string),
 		Page:     1,
-		Limit:    10,
+		Limit:    20,
 		Ordering: []string{},
 		Search:   "",
 	}
