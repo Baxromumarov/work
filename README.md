@@ -1,5 +1,5 @@
 # work service'lariga izoh
-- user-service --> topshiriqdagi 1- service
-- post-service --> topshiriqdagi 2-service
-- api-gateway --> topshiriqdagi 3-service
+- user-service --> ma'lumotlar qabul qiladi va db ga saqlaydi
+- post-service --> ma'lumotlarga ishlov beruvchi service ya.ni CRUD metodlari
+- api-gateway --> API chiqaruvchi service.
 databaza jadvallari(table) migrate orqali yaratildi
